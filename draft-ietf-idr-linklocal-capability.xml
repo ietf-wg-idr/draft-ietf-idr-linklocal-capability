@@ -59,34 +59,47 @@
         as defined in <xref target="RFC2545"/>, which is crucial for
         enabling BGP-4 to advertise IPv6 routes alongside IPv4. This extension not only
         permits the exchange of IPv6 routing information but also establishes the structure
-        for IPv6 next-hop handling within BGP updates. As such, <xref target="RFC2545"/>
-        is fundamental to BGP's operation in IPv6 networks, ensuring that IPv6 prefixes
-        are propagated consistently and efficiently across domains.
+        for IPv6 next hop handling within BGP updates.
         As such, BGP assumes the next hop towards any reachable destination may
         not reside on the advertising speaker, but rather may either be through
         a router connected to the same subnet as the speaker, or through a router
-        only reachable by traversing multiple hops through the network. Because
-        of this, as per <xref target="RFC4291"/> - BGP does not
-        recognize  IPv6 link-local addresses, as a valid next hop for the forwarding
-        purposes.
+        only reachable by traversing multiple hops through the network.
+        <xref target="RFC2545"/> introduced the ability to advertise a global IPv6
+        address as the BGP next hop. When the advertising system is directly attached,
+        it may include both a global and a link-local address or only a global address,
+        when next hop length is set to 16 bytes.
+        This document updates the specification to clarify the encoding of the BGP next hop
+        when the advertising system is directly attached and only a link-local address is available,
+        especially in the context of point-to-point links.
       </t>
-      <t>This draft standardizes the operation of BGP over a point-to-point
-link using link-local IPv6 addressing only.</t>
     </abstract>
   </front>
   <middle>
     <section numbered="true" toc="default">
       <name>Introduction</name>
-      <t>BGP <xref target="RFC4271"/>, was originally designed to
-provide reachability between domains and between the edges of a domain.
-As such, BGP assumes the next hop towards any reachable destination may not
-reside on the advertising speaker, but rather may either be through a router
-connected to the same subnet as the speaker, or through a router only
-reachable by traversing multiple hops through the network. Because
-of this, as per <xref target="RFC4291"/> - BGP does not recognize  IPv6 link-local addresses,
-as a valid next hop for the forwarding
-purposes.</t>
-      <t>However, BGP speakers are now often deployed on point-to-point links in
+      <t>
+        BGP <xref target="RFC4271"/>, was originally designed
+        to provide reachability between domains and between the edges of a domain.
+      </t>
+      <t>
+        To support IPv6 reachability, BGP relies heavily on its Multiprotocol Extensions
+        as defined in <xref target="RFC2545"/>, which is crucial for
+        enabling BGP-4 to advertise IPv6 routes alongside IPv4. This extension not only
+        permits the exchange of IPv6 routing information but also establishes the structure
+        for IPv6 next hop handling within BGP updates.
+        As such, BGP assumes the next hop towards any reachable destination may
+        not reside on the advertising speaker, but rather may either be through
+        a router connected to the same subnet as the speaker, or through a router
+        only reachable by traversing multiple hops through the network.
+        <xref target="RFC2545"/> introduced the ability to advertise a global IPv6
+        address as the BGP next hop. When the advertising system is directly attached,
+        it may include both a global and a link-local address or only a global address,
+        when next hop length is set to 16 bytes.
+        This document updates the specification to clarify the encoding of the BGP next hop
+        when the advertising system is directly attached and only a link-local address is available,
+        especially in the context of point-to-point links.
+      </t>
+      <t>BGP speakers are now often deployed on point-to-point links in
 networks where multihop reachability of any kind is not assumed or desired
 (all next hops are assumed to be the speaker reachable through a directly
 connected point-to-point link). This is common, for instance, in data center
@@ -100,14 +113,7 @@ in simplifying orchestration and configuration management. This
 proposal is a step in that direction.</t>
       <t>
         With this new capability, the need for a global unicast address assigned
-        to the interfaces is eliminated, further simplifying BGP neighbor
-        configuration by making it effectively address-family independent.
-        For example, BGP can just take the interface name for the peer config
-        and link-local IPv6 address of the peer can be learned via a discovery
-        protocol running on the link or by an out-of-band tool. In essence,
-        link-local next hop in combination with <xref target="RFC8950"/>
-        makes it possible to achieve an unnumbered interface-like solution
-        <xref target="RFC5309"/> in BGP.
+        to the interfaces is eliminated.
       </t>
       <t>Since link-local IPv6 addresses are not required to be globally unique,
       implementations must ensure that they are strictly associated with a specific
