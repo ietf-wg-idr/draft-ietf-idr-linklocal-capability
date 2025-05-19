@@ -86,15 +86,17 @@ Zero Touch Provisioning (ZTP).</t>
 link, and any ease or simplification of BGP configuration can result
 in simplifying orchestration and configuration management. This
 proposal is a step in that direction.</t>
-      <t>With the requirement of any global interface address being removed by
-this new capability, BGP neighbor configuration can be further
-simplified by making it (look) address-family independent. For example, BGP
-can just take the interface name for the peer config and link-local IPv6
-address of the peer can be learned via a discovery protocol running
-on the link or by an out-of-band tool. In essence, link-local next
-hop in combination with <xref target="RFC8950" format="default"/> makes it possible to
-achieve an unnumbered interface-like solution <xref target="RFC5309" format="default"/>
-in BGP.</t>
+      <t>
+        With this new capability, the need for a global unicast address assigned
+        to the interfaces is eliminated, further simplifying BGP neighbor
+        configuration by making it effectively address-family independent.
+        For example, BGP can just take the interface name for the peer config
+        and link-local IPv6 address of the peer can be learned via a discovery
+        protocol running on the link or by an out-of-band tool. In essence,
+        link-local next hop in combination with <xref target="RFC8950" format="default"/>
+        makes it possible to achieve an unnumbered interface-like solution
+        <xref target="RFC5309" format="default"/> in BGP.
+      </t>
       <t>Since link-local IPv6 addresses are not required to be globally unique,
       implementations must ensure that they are strictly associated with a specific
       interface.
