@@ -68,6 +68,8 @@
         address as the BGP next hop. When the advertising system is directly attached,
         it may include both a global and a link-local address or only a global address,
         when next hop length is set to 16 bytes.
+      </t>
+      <t>
         This document updates the specification to clarify the encoding of the BGP next hop
         when the advertising system is directly attached and only a link-local address is available,
         especially in the context of point-to-point links.
@@ -95,6 +97,8 @@
         address as the BGP next hop. When the advertising system is directly attached,
         it may include both a global and a link-local address or only a global address,
         when next hop length is set to 16 bytes.
+      </t>
+      <t>
         This document updates the specification to clarify the encoding of the BGP next hop
         when the advertising system is directly attached and only a link-local address is available,
         especially in the context of point-to-point links.
