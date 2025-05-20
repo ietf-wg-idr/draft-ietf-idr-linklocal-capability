@@ -245,23 +245,12 @@ as described in section 7.3 of <xref target="RFC7606"/>.</t>
       <t>If the Next Hop field is malformed, the implementation MUST handle the
 malformed UPDATE message using the approach of "treat-as-withdraw", as
 described in section 7.3 of <xref target="RFC7606"/>.</t>
-      <t>In both cases, it MAY send a NOTIFICATION message as described in section 4 of
-<xref target="RFC4271"/>, using the UPDATE error message
-code (8 - Invalid NEXT_HOP Attribute) indicating there is an invalid
-NEXT_HOP field.</t>
       <t>If the Next Hop field is properly formed, but the IPv6 link-local next hop is not
 reachable (as determined by an examination of the IPv6 neighbor table), the
 implementation MAY handle the malformed UPDATE message using the approach
 of "treat-as-withdraw", as described in section 7.3 of <xref target="RFC7606"/>
 (see the note above on checking the local neighbor table for the correctness of
-the next hop). The implementation MAY send a NOTIFICATION message as described
-in section 4 of <xref target="RFC4271"/> using
-the UPDATE error message code (TBA), indicating the IPv6 link-local address was
-included in the MP_REACH_NLRI, but the IPv6 link-local address included
-cannot be reached. As this could indicate a security breach of some type
-(see the security considerations section below), the operator SHOULD have
-a local configuration option to terminate the peering session until manual
-intervention is initiated.</t>
+the next hop).</t>
     </section>
     <!-- end of Error handling section -->
 
@@ -286,11 +275,6 @@ intervention is initiated.</t>
 
 <section numbered="true" toc="default">
       <name>IANA Considerations</name>
-      <t>This memo requests IANA assign a number from the "Error Subcodes"
-registry defined in the IANA Considerations section in
-<xref target="RFC4271"/>. This allocation will be for a new UPDATE
-error subcode, code (TBA), with a value of
-"Unreachable Link-Local Address".</t>
       <t>
         IANA has assigned capability number 77 for the Link-Local Next Hop Capability
         described in this document. This registration is in the BGP Capability Codes
