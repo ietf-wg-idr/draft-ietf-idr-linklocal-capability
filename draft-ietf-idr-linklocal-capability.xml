@@ -205,23 +205,6 @@ next hop self when passed to another link.</t>
 SHOULD form the forwarding information using the IPv6 next hop contained in
 the Next Hop field, regardless of whether it is a link-local or globally
 reachable IPv6 address.</t>
-      <t>Implementations MAY check the validity of any IPv6 link-local address used
-to calculate forwarding information by insuring the address is in the local
-neighbor table for the interface on which the BGP update was received
-(or through which the BGP speaker from which the update was received is
-reachable). There MUST be a configuration option to enable/disable
-this check.</t>
-      <t>Note: It is possible that checking the IPv6 neighbor table for the
-existence or validity of a link-local next hop may make instances where a link
-is being overwhelmed through some form of Denial of Service (DoS) attack
-worse than they would otherwise be. If the IPv6 neighbor cache is overrun
-in a way that causes the link-local address being used for BGP peering to
-be removed from the table, which is possible through an on-link DoS attack,
-any fresh BGP update will cause the entire peering session to fail if the
-implementation is checking the validity of link-local next hops as
-described above. Operators should carefully assess the use of validation
-against the local IPv6 neighbor table to determine if it is appropriate
-for any particular peering session.</t>
     </section>
     <!-- end of Receiver Processing of IPv6 Link-Local Forwarding Addresses section -->
 
