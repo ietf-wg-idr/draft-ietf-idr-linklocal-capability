@@ -66,12 +66,16 @@
         only reachable by traversing multiple hops through the network.
         <xref target="RFC2545"/> introduced the ability to advertise a global IPv6
         address as the BGP next hop. When the advertising system is directly attached,
-        it may include both a global and a link-local address or only a global address,
+        it may include both a global and an IPv6 link-local address or only a global address,
         when next hop length is set to 16 bytes.
       </t>
       <t>
         This document updates the specification to clarify the encoding of the BGP next hop
-        when the advertising system is directly attached and only a link-local address is available.
+        when the advertising system is directly attached and only an IPv6 link-local address is available.
+      </t>
+      <t>
+        This clarification applies specifically to IPv6 link-local addresses and
+        does not pertain to IPv4 link-local addresses as defined in <xref target="RFC3927"/>.
       </t>
     </abstract>
   </front>
@@ -94,12 +98,16 @@
         only reachable by traversing multiple hops through the network.
         <xref target="RFC2545"/> introduced the ability to advertise a global IPv6
         address as the BGP next hop. When the advertising system is directly attached,
-        it may include both a global and a link-local address or only a global address,
+        it may include both a global and an IPv6 link-local address or only a global address,
         when next hop length is set to 16 bytes.
       </t>
       <t>
         This document updates the specification to clarify the encoding of the BGP next hop
-        when the advertising system is directly attached and only a link-local address is available.
+        when the advertising system is directly attached and only an IPv6 link-local address is available.
+      </t>
+      <t>
+        This clarification applies specifically to IPv6 link-local addresses and
+        does not pertain to IPv4 link-local addresses as defined in <xref target="RFC3927"/>.
       </t>
       <t>BGP speakers are now often deployed on point-to-point links in
 networks where multihop reachability of any kind is not assumed or desired
@@ -117,7 +125,7 @@ proposal is a step in that direction.</t>
         With this new capability, the need for a global unicast address assigned
         to the interfaces is eliminated.
       </t>
-      <t>Since link-local IPv6 addresses are not required to be globally unique,
+      <t>Since IPv6 link-local addresses are not required to be globally unique,
       implementations must ensure that they are strictly associated with a specific
       interface.
       </t>
@@ -130,16 +138,16 @@ proposal is a step in that direction.</t>
 BGP speaker that supports capabilities advertisement <xref target="RFC5492"/>
 in an OPEN message should send this capability only when:
       </t>
-      <ol spacing="normal" type="1"><li>It is capable of sending link-local IPv6 address as the only next
+      <ol spacing="normal" type="1"><li>It is capable of sending IPv6 link-local address as the only next
               hop address for a route.</li>
-        <li>The implementation is capable of processing link-local address
+        <li>The implementation is capable of processing IPv6 link-local address
                next hops with the help of peer interface binding to come up with
                interface-specific next hops for its routing table.</li>
       </ol>
       <t>
 The presence of this capability does not affect the support of global
-IPv6 only (16 bytes next hop) and global IPv6 combined with link-local
-IPv6 (32 bytes next hop), which should continue to be supported as before.
+IPv6 only (16 bytes next hop) and global IPv6 combined with IPv6 link-local
+(32 bytes next hop), which should continue to be supported as before.
 
 The Capability Code for this capability is 77. The Capability Length field
 of this capability is 0.</t>
@@ -147,46 +155,46 @@ of this capability is 0.</t>
 implementations interoperate correctly without additional
 configuration. Existing implementations utilizing BGP next hop over an IPv6 link-local address are inconsistent, and
 can't readily change their behavior without negative side effects.</t>
-      <t>A BGP speaker that is willing to use (send and receive) only link-local
+      <t>A BGP speaker that is willing to use (send and receive) only IPv6 link-local
 addresses as next hops with a peer SHOULD advertise the Link-Local Next Hop
 Capability to the peer using BGP Capabilities advertisement.</t>
-      <t>The peers have the flexibility to include both link-local and global
-next hops or link-local only next hop.</t>
+      <t>The peers have the flexibility to include both IPv6 link-local and global
+next hops or IPv6 link-local only next hop.</t>
     </section>
     <!-- end of Link-Local Next Hop Capability section -->
 
 <section numbered="true" toc="default">
       <name>Changes to BGP Next Hop Attribute to Support Link-Local on Point-to-Point</name>
-      <t><xref target="RFC2545"/>, section 2, notes link-local IPv6 addresses are
+      <t><xref target="RFC2545"/>, section 2, notes IPv6 link-local addresses are
 not generally suitable for use in the Next Hop field of the MP_REACH_NLRI.
-In order to support the many uses of link-local addresses,
+In order to support the many uses of IPv6 link-local addresses,
 however, <xref target="RFC2545"/> constructs the Next Hop field in IPv6
 route advertisements by setting the length of the field to 32, and including
-both a link-local and global IPv6 address in the resulting enlarged field.
+both an IPv6 link-local and global address in the resulting enlarged field.
 In this way, the receiving BGP speaker can use the global IPv6 address to
-build local forwarding information, and the link-local address for ICMPv6
+build local forwarding information, and the IPv6 link-local address for ICMPv6
 redirects, etc. <xref target="RFC2545"/> does not, however, provide an
-explanation for situations where there is only a link-local IPv6 address
+explanation for situations where there is only an IPv6 link-local address
 in the Next Hop field of the MP_REACH_NLRI. The result is each implementation
-that supports link-local peering along with forwarding to a link-local address
+that supports IPv6 link-local peering along with forwarding to an IPv6 link-local address
 has implemented the construction of the Next Hop field in the MP_REACH_NLRI
-when there is only a link-local address available in slightly different
+when there is only an IPv6 link-local address available in slightly different
 ways.</t>
-      <t>If an implementation intends to send a single link-local forwarding address
+      <t>If an implementation intends to send a single IPv6 link-local forwarding address
 in the Next Hop field of the MP_REACH_NLRI, it MUST set the length of the
 Next Hop field to 16 and include only the IPv6 link-local address in the
 Next Hop field.</t>
-      <t>If an implementation intends to send both a link-local and global IPv6
+      <t>If an implementation intends to send both an IPv6 link-local and global
 forwarding address in the Next Hop field of the MP_REACH_NLRI, it MUST set
 the length of the Next Hop field to 32 and include both the IPv6 link-local
-and global IPv6 forwarding addresses in the Next Hop field. If both link
-local and global IPv6 forwarding addresses are carried in the Next Hop Field,
+and global forwarding addresses in the Next Hop field. If both the IPv6 link-local
+and global forwarding addresses are carried in the Next Hop Field,
 the speaker SHOULD provide a local configuration option to determine which
 address should be preferred for forwarding.</t>
       <t>For iBGP peers configured as a route-reflector <xref target="RFC4456"/>, when route-reflector
-isn't configured to be in the data-path, the proposed link-local (only)
+isn't configured to be in the data-path, the proposed IPv6 link-local (only)
 next hops MUST NOT be reflected.</t>
-      <t>A single (only) link-local next hop address needs to always be reset as
+      <t>A single (only) IPv6 link-local next hop address needs to always be reset as
 next hop self when passed to another link.</t>
     </section>
     <!-- end of Changes to BGP Next Hop Attribute to Support Link-Local on Point-to-Point section -->
@@ -221,17 +229,17 @@ for any particular peering session.</t>
       <name>Error handling</name>
       <t>A BGP speaker receiving an MP_REACH_NLRI with the length of the
 Next Hop Field set to 32, where the update contains anything other than
-a link-local IPv6 address and a global IPv6 address, SHOULD consider
+an IPv6 link-local address and a global address, SHOULD consider
 this a malformed UPDATE message, and proceed as described in the following
 paragraphs. In order to support backward compatibility with existing
-implementations, an implementation MAY ignore a second link-local IPv6 address
+implementations, an implementation MAY ignore a second IPv6 link-local address
 or 0::0/0 included with an IPv6 link-local address when the length of
 the Next Hop Field is set to 32; in this case, the implementation SHOULD
 report the existence of this additional information so the operator can
 correct the sending BGP implementation.</t>
       <t>And if a BGP speaker receiving an MP_REACH_NLRI with the length
-of the Next Hop Field set to 16, where the update contains a link-local
-IPv6 address, SHOULD consider this a malformed UPDATE message, and handle
+of the Next Hop Field set to 16, where the update contains an IPv6 link-local
+address, SHOULD consider this a malformed UPDATE message, and handle
 the malformed UPDATE message using the approach of "treat-as-withdraw",
 as described in section 7.3 of <xref target="RFC7606"/>.</t>
       <t>If the Next Hop field is malformed, the implementation MUST handle the
@@ -241,15 +249,15 @@ described in section 7.3 of <xref target="RFC7606"/>.</t>
 <xref target="RFC4271"/>, using the UPDATE error message
 code (8 - Invalid NEXT_HOP Attribute) indicating there is an invalid
 NEXT_HOP field.</t>
-      <t>If the Next Hop field is properly formed, but the link-local next hop is not
+      <t>If the Next Hop field is properly formed, but the IPv6 link-local next hop is not
 reachable (as determined by an examination of the IPv6 neighbor table), the
 implementation MAY handle the malformed UPDATE message using the approach
 of "treat-as-withdraw", as described in section 7.3 of <xref target="RFC7606"/>
 (see the note above on checking the local neighbor table for the correctness of
 the next hop). The implementation MAY send a NOTIFICATION message as described
 in section 4 of <xref target="RFC4271"/> using
-the UPDATE error message code (TBA), indicating a link-local address was
-included in the MP_REACH_NLRI, but the link-local address included
+the UPDATE error message code (TBA), indicating the IPv6 link-local address was
+included in the MP_REACH_NLRI, but the IPv6 link-local address included
 cannot be reached. As this could indicate a security breach of some type
 (see the security considerations section below), the operator SHOULD have
 a local configuration option to terminate the peering session until manual
@@ -312,7 +320,7 @@ error subcode, code (TBA), with a value of
 building BGP peering across point-to-point links. This method, then, can be
 used by an attacker to form a peering session with a BGP speaker, ultimately
 advertising incorrect routing information into a routing domain in order to
-misdirect traffic or cause a denial of service. By using link-local IPv6
+misdirect traffic or cause a denial of service. By using IPv6 link-local
 addresses, the attacker would be able to forego the use of a valid IPv6
 address within the domain, making such an attack easier.</t>
       <t>Operators SHOULD carefully consider security when deploying link-local
@@ -339,6 +347,7 @@ the invalid NEXT_HOP was received pending manual intervention.</t>
       <references>
       <name>Normative References</name>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.2545.xml"/>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.3927.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.4271.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.4291.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.4456.xml"/>
