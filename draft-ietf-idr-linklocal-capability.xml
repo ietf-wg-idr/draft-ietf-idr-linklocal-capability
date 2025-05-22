@@ -160,6 +160,23 @@ addresses as next hops with a peer SHOULD advertise the Link-Local Next Hop
 Capability to the peer using BGP Capabilities advertisement.</t>
       <t>The peers have the flexibility to include both IPv6 link-local and global
 next hops or IPv6 link-local only next hop.</t>
+      <t>
+        In this document, all procedures described are applicable only when the
+        capability described herein has been successfully negotiated between BGP
+        speakers. When the capability has not been negotiated, the procedures in
+        this document do not apply, and the resulting behavior is considered
+        undefined and out of scope for this specification.
+      </t>
+      <t>
+        For example, when the capability is negotiated, a BGP speaker MUST
+        advertise only an IPv6 link-local nexthop when using such nexthops, and
+        the next hop length field MUST be set to 16 bytes.
+      </t>
+      <t>
+        Implementers are encouraged to consult the Appendix for currently known
+        interoperability concerns or incompatibilities when this capability is
+        absent or inconsistently implemented.
+      </t>
     </section>
     <!-- end of Link-Local Next Hop Capability section -->
 
