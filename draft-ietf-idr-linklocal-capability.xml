@@ -51,19 +51,19 @@
     <workgroup>Interdomain Routing</workgroup>
     <abstract>
       <t>
-	To support IPv6 reachability, BGP <xref target="RFC4271"/> relies on the
-	Multiprotocol Extensions as defined in <xref target="RFC4760"/>.
-	<xref target="RFC2545"/> defines the structure of IPv6 next hops.  These
-	IPv6 next hops may contain a Global IPv6 address, and optionally can
-	contain an IPv6 Link-Local address when the BGP peer is directly
-	attached and shares a common subnet with the IPv6 Global address.
+        To support IPv6 reachability, BGP <xref target="RFC4271"/> relies on the
+        Multiprotocol Extensions as defined in <xref target="RFC4760"/>.
+        <xref target="RFC2545"/> defines the structure of IPv6 next hops.  These
+        IPv6 next hops may contain a Global IPv6 address, and optionally can
+        contain an IPv6 Link-Local address when the BGP peer is directly
+        attached and shares a common subnet with the IPv6 Global address.
       </t>
       <t>
-	This document updates <xref target="RFC2545"/> to clarify the
-	encoding of the BGP next hop when the advertising system is directly
-	attached and only an IPv6 Link-Local address is available.  A new BGP
-	Capbility <xref target="RFC5492"/> is defined to signal support for this
-	updated encoding.
+        This document updates <xref target="RFC2545"/> to clarify the
+        encoding of the BGP next hop when the advertising system is directly
+        attached and only an IPv6 Link-Local address is available.  A new BGP
+        Capbility <xref target="RFC5492"/> is defined to signal support for this
+        updated encoding.
       </t>
       <t>
         This clarification applies specifically to IPv6 Link-Local addresses and
@@ -75,38 +75,38 @@
     <section numbered="true" toc="default">
       <name>Introduction</name>
       <t>
-	To support IPv6 reachability, BGP <xref target="RFC4271"/> relies on the
-	Multiprotocol Extensions as defined in <xref target="RFC4760"/>.
-	<xref target="RFC2545"/> defines the structure of IPv6 next hops.  These
-	IPv6 next hops may contain a Global IPv6 address, and optionally can
-	contain an IPv6 Link-Local address when the BGP peer is directly
-	attached and shares a common subnet with the IPv6 Global address.
+        To support IPv6 reachability, BGP <xref target="RFC4271"/> relies on the
+        Multiprotocol Extensions as defined in <xref target="RFC4760"/>.
+        <xref target="RFC2545"/> defines the structure of IPv6 next hops.  These
+        IPv6 next hops may contain a Global IPv6 address, and optionally can
+        contain an IPv6 Link-Local address when the BGP peer is directly
+        attached and shares a common subnet with the IPv6 Global address.
       </t>
       <t>
-	This document updates <xref target="RFC2545"/> to clarify the
-	encoding of the BGP next hop when the advertising system is directly
-	attached and only an IPv6 Link-Local address is available.  A new BGP
-	Capbility <xref target="RFC5492"/> is defined to signal support for this
-	updated encoding.
+        This document updates <xref target="RFC2545"/> to clarify the
+        encoding of the BGP next hop when the advertising system is directly
+        attached and only an IPv6 Link-Local address is available.  A new BGP
+        Capbility <xref target="RFC5492"/> is defined to signal support for this
+        updated encoding.
       </t>
       <t>
         This clarification applies specifically to IPv6 Link-Local addresses and
         does not pertain to IPv4 Link-Local addresses as defined in <xref target="RFC3927"/>.
       </t>
       <t>
-	BGP speakers are now often deployed on point-to-point links in networks
-	where multihop reachability of any kind is not assumed or desired.  (All
-	next hops are assumed to be the reachable through a directly connected
-	point-to-point link.) This is common, for instance, in data center
-	fabrics <xref target="RFC7938"/>. In these situations, a Global IPv6
-	address is not required for the advertisement of reachability
-	information. In fact, providing Global IPv6 addresses in these kinds of
-	networks can be detrimental to Zero Touch Provisioning (ZTP).
+        BGP speakers are now often deployed on point-to-point links in networks
+        where multihop reachability of any kind is not assumed or desired.  (All
+        next hops are assumed to be the reachable through a directly connected
+        point-to-point link.) This is common, for instance, in data center
+        fabrics <xref target="RFC7938"/>. In these situations, a Global IPv6
+        address is not required for the advertisement of reachability
+        information. In fact, providing Global IPv6 addresses in these kinds of
+        networks can be detrimental to Zero Touch Provisioning (ZTP).
       </t>
       <t>
-	Such BGP deployment models require BGP to run on each link, and any
-	simplification of BGP configuration can simplify orchestration and
-	configuration management. This proposal is a step in that direction.
+        Such BGP deployment models require BGP to run on each link, and any
+        simplification of BGP configuration can simplify orchestration and
+        configuration management. This proposal is a step in that direction.
       </t>
       <t>
         With this new capability, the need for a Global unicast address assigned
@@ -115,9 +115,9 @@
       <!-- XXX JMH - what is the intention of this next sentence?  That the
       addresses are scoped? -->
       <t>
-	Since IPv6 Link-Local addresses are not required to be globally unique,
-	implementations must ensure that they are strictly associated with a
-	specific interface.
+        Since IPv6 Link-Local addresses are not required to be globally unique,
+        implementations must ensure that they are strictly associated with a
+        specific interface.
       </t>
     </section>
     <!-- end of Introduction section -->
@@ -125,39 +125,39 @@
 <section numbered="true" toc="default">
       <name>Link-Local Next Hop Capability</name>
       <t>
-	The Link-Local Next Hop capability is a new BGP capability. Its
-	Capability code is 77 and its Capability Length is 0.
+        The Link-Local Next Hop capability is a new BGP capability. Its
+        Capability code is 77 and its Capability Length is 0.
       </t>
       <t>
-	A BGP speaker that is willing to use (send and receive) IPv6
-	Link-Local-only next hops SHOULD advertise the Link-Local Next Hop
-	Capability to its peers only when:
+        A BGP speaker that is willing to use (send and receive) IPv6
+        Link-Local-only next hops SHOULD advertise the Link-Local Next Hop
+        Capability to its peers only when:
       </t>
       <ol spacing="normal" type="1">
-	<li>It is capable of sending IPv6 Link-Local-only next hops for a route.</li>
-	<!-- XXX JMH - the text in this next sentence is awkward. Is the intent
-	to say that we're using the BGP peer configuration and that this
-	configuration is intended to be configured for a specific interface? -->
+        <li>It is capable of sending IPv6 Link-Local-only next hops for a route.</li>
+        <!-- XXX JMH - the text in this next sentence is awkward. Is the intent
+        to say that we're using the BGP peer configuration and that this
+        configuration is intended to be configured for a specific interface? -->
         <li>The implementation is capable of processing IPv6 Link-Local address
                next hops with the help of peer interface binding to come up with
                interface-specific next hops for its routing table.</li>
       </ol>
       <t>
-	The presence of this capability does not affect the support of Global
-	IPv6 only (16 bytes next hop) and Global IPv6 combined with IPv6
-	Link-Local (32 bytes next hop), which should continue to be supported as
-	before.
+        The presence of this capability does not affect the support of Global
+        IPv6 only (16 bytes next hop) and Global IPv6 combined with IPv6
+        Link-Local (32 bytes next hop), which should continue to be supported as
+        before.
       </t>
       <t>
-	The peers have the flexibility to include both Global and Link-Local BGP
-	IPv6 nexthops, or Link-Local-only IPv6 next hops.
+        The peers have the flexibility to include both Global and Link-Local BGP
+        IPv6 nexthops, or Link-Local-only IPv6 next hops.
       </t>
       <t>
         In this document, all procedures described are applicable only when the
         capability described herein has been successfully advertised by both BGP
-	speakers; i.e., negotiated. When the capability has not been negotiated,
-	the procedures in this document do not apply, and the resulting behavior
-	is considered undefined and out of scope for this specification.
+        speakers; i.e., negotiated. When the capability has not been negotiated,
+        the procedures in this document do not apply, and the resulting behavior
+        is considered undefined and out of scope for this specification.
       </t>
       <t>
         Implementers are encouraged to consult the Appendix for currently known
@@ -170,181 +170,181 @@
     <section>
       <name>Changes to the Procedure for Encoding IPv6 Next Hops</name>
       <t>
-	<xref target="RFC2545" section="2"/> notes IPv6 Link-Local addresses are
-	not generally suitable for use in the Next Hop field of the
-	MP_REACH_NLRI.  In order to support the many uses of IPv6 Link-Local
-	addresses, however, <xref target="RFC2545"/> constructs the Next Hop
-	field in IPv6 route advertisements by setting the length of the field to
-	32, and including both an IPv6 Global and Link-Local address.
+        <xref target="RFC2545" section="2"/> notes IPv6 Link-Local addresses are
+        not generally suitable for use in the Next Hop field of the
+        MP_REACH_NLRI.  In order to support the many uses of IPv6 Link-Local
+        addresses, however, <xref target="RFC2545"/> constructs the Next Hop
+        field in IPv6 route advertisements by setting the length of the field to
+        32, and including both an IPv6 Global and Link-Local address.
 
-	<!-- XXX JMH I think the next sentence is too implementation specific to
-	include. Thoughts? -->
-	In this way, the receiving BGP speaker can use the Global IPv6 address
-	to build local forwarding information, and the IPv6 Link-Local address
-	for ICMPv6 redirects, etc.
+        <!-- XXX JMH I think the next sentence is too implementation specific to
+        include. Thoughts? -->
+        In this way, the receiving BGP speaker can use the Global IPv6 address
+        to build local forwarding information, and the IPv6 Link-Local address
+        for ICMPv6 redirects, etc.
       </t>
       <t>
-	<xref target="RFC2545"/> does not, however, provide an explanation for
-	situations where there is only an IPv6 Link-Local address in the Next
-	Hop field of the MP_REACH_NLRI.
+        <xref target="RFC2545"/> does not, however, provide an explanation for
+        situations where there is only an IPv6 Link-Local address in the Next
+        Hop field of the MP_REACH_NLRI.
       </t>
       <t>
-	If an implementation intends to send a single IPv6 Link-Local forwarding
-	address in the Next Hop field of the MP_REACH_NLRI, it MUST set the
-	length of the Next Hop field to 16 and include only the IPv6 Link-Local
-	address in the Next Hop field.
+        If an implementation intends to send a single IPv6 Link-Local forwarding
+        address in the Next Hop field of the MP_REACH_NLRI, it MUST set the
+        length of the Next Hop field to 16 and include only the IPv6 Link-Local
+        address in the Next Hop field.
       </t>
       <t>
-	If an implementation intends to send both a IPv6 Global and Link-Local
-	forwarding address in the Next Hop field of the MP_REACH_NLRI, it MUST
-	set the length of the Next Hop field to 32 and include both the IPv6
-	Global and Link-Local addresses in the Next Hop field.
+        If an implementation intends to send both a IPv6 Global and Link-Local
+        forwarding address in the Next Hop field of the MP_REACH_NLRI, it MUST
+        set the length of the Next Hop field to 32 and include both the IPv6
+        Global and Link-Local addresses in the Next Hop field.
 
-	<!-- XXX JMH - I don't know of implementations that carry both types
-	that permit the choice of installed nexthop. Any pointers? -->
-	If both the IPv6 Global and Link-Local addresses are carried in the Next
-	Hop Field, the speaker SHOULD provide a local configuration
-	option to determine which address should be preferred for
-	forwarding.
+        <!-- XXX JMH - I don't know of implementations that carry both types
+        that permit the choice of installed nexthop. Any pointers? -->
+        If both the IPv6 Global and Link-Local addresses are carried in the Next
+        Hop Field, the speaker SHOULD provide a local configuration
+        option to determine which address should be preferred for
+        forwarding.
       </t>
     </section>
     <section>
       <name>IPv6 Next Hop Procedures for Internal and External Peers</name>
       <t>
         <xref target="RFC4271" section="5.1.3"/> defines how the NEXT_HOP field
-	is used by BGP for internal and external peering. 
-	<xref target="RFC2545"/> does not explicitly discuss next hop procedures
-	in a similar fashion, only the conditions for when the Global IPv6
-	address is on the same subnet as the peer that a Link-Local IPv6 address 
-	is also included in the next hop.
+        is used by BGP for internal and external peering. 
+        <xref target="RFC2545"/> does not explicitly discuss next hop procedures
+        in a similar fashion, only the conditions for when the Global IPv6
+        address is on the same subnet as the peer that a Link-Local IPv6 address 
+        is also included in the next hop.
       </t>
       <t>
         This section defines the behaviors for setting IPv6 next hops when the
-	Link-Local Next Hop Capability has been negotiated between two peers.
-	The next hop MAY consist of only a Link-Local IPv6 next hop.
+        Link-Local Next Hop Capability has been negotiated between two peers.
+        The next hop MAY consist of only a Link-Local IPv6 next hop.
       </t>
       <ol>
-	<li>
-	  <t>
-	    When sending a message to an internal peer, if the route is not
-	    locally-originated, the BGP speaker SHOULD NOT modify the Global IPv6
-	    next hop, if one is present, unless it has been explicitly configured
-	    to announce its own IP address as the next hop.
-	  </t>
+        <li>
+          <t>
+            When sending a message to an internal peer, if the route is not
+            locally-originated, the BGP speaker SHOULD NOT modify the Global IPv6
+            next hop, if one is present, unless it has been explicitly configured
+            to announce its own IP address as the next hop.
+          </t>
 
-	  <t>
-	    If the internal peer is more than one IP hop away, the BGP speaker
-	    MUST NOT include a Link-Local IPv6 next hop.
-	  </t>
+          <t>
+            If the internal peer is more than one IP hop away, the BGP speaker
+            MUST NOT include a Link-Local IPv6 next hop.
+          </t>
 
-	  <t>
-	    If the internal peer is one IP hop away, and the route is not
-	    locally-originated, and the route was received from a peer on the same
-	    interface as the peer the route is being announced to, the BGP speaker
-	    MAY include the received Link-Local IPv6 nexthop for the route.  (This
-	    is a form of "third-party" next hop.)
-	  </t>
+          <t>
+            If the internal peer is one IP hop away, and the route is not
+            locally-originated, and the route was received from a peer on the same
+            interface as the peer the route is being announced to, the BGP speaker
+            MAY include the received Link-Local IPv6 nexthop for the route.  (This
+            is a form of "third-party" next hop.)
+          </t>
 
-	  <t>
-	    When announcing a locally-originated route to an internal peer, 
-	    or the BGP speaker has been explicitly configured to announce its
-	    own IP address as the next hop, the BGP speaker SHOULD use the
-	    Global IPv6 address of the interface of the router through which the
-	    announced network is reachable for the speaker as the next hop, if
-	    present.
+          <t>
+            When announcing a locally-originated route to an internal peer, 
+            or the BGP speaker has been explicitly configured to announce its
+            own IP address as the next hop, the BGP speaker SHOULD use the
+            Global IPv6 address of the interface of the router through which the
+            announced network is reachable for the speaker as the next hop, if
+            present.
 
-	    If the route is
-	    directly connected to the speaker, or if the interface address of
-	    the router through which the announced network is reachable for the
-	    speaker is the internal peer's address, the next hop MUST include
-	    its own Link-Local IPv6 address.
-	  </t>
-	  <t>
-	    If, after evaluating the above procedures, there are no IPv6 next hops
-	    included with the route, the route MUST NOT be announced to the remote
-	    BGP speaker. (Treat-as-withdraw.)
-	  </t>
-	  <t>
-	    These procedures also apply when the BGP speaker is functioning as a
-	    route-reflector (<xref target="RFC4456"/>).
-	  </t>
-	</li>
-	<li>
-	  <t>
-	    When sending a message to an external peer, X, and the peer is one IP
-	    hop away from the speaker:
-	  </t>
+            If the route is
+            directly connected to the speaker, or if the interface address of
+            the router through which the announced network is reachable for the
+            speaker is the internal peer's address, the next hop MUST include
+            its own Link-Local IPv6 address.
+          </t>
+          <t>
+            If, after evaluating the above procedures, there are no IPv6 next hops
+            included with the route, the route MUST NOT be announced to the remote
+            BGP speaker. (Treat-as-withdraw.)
+          </t>
+          <t>
+            These procedures also apply when the BGP speaker is functioning as a
+            route-reflector (<xref target="RFC4456"/>).
+          </t>
+        </li>
+        <li>
+          <t>
+            When sending a message to an external peer, X, and the peer is one IP
+            hop away from the speaker:
+          </t>
 
-	  <ul>
-	    <li>
-	      If the route being announced was learned from an internal
-	      peer or is locally-originated, the BGP speaker can use an
-	      interface address of the internal peer router (or the
-	      internal router) through which the announced network is
-	      reachable for the speaker for the Global IPv6 next hop and
-	      shares a common subnet with this address, and/or a Link-Local IPv6
-	      next hop, provided that peer X is directly attached.  This is a
-	      form of "third party" next hop.
-	    </li>
-	    <li>
-	      Otherwise, if the route being announced was learned from an
-	      external peer, the speaker can use a Global IPv6 address of any
-	      adjacent router (known from the received next hop) that the
-	      speaker itself uses for local route calculation in the next hop,
-	      provided that peer X shares a common subnet with this Global IPv6
-	      address.  Similarly, the speaker can use the received Link-Local
-	      IPv6 address, provided that peer X is directly attached.  This is
-	      a second form of "third party" next hop  attribute.
-	    </li>
-	    <li>
-	      Otherwise, if the external peer to which the route is being
-	      advertised shares a common subnet with one of the interfaces
-	      of the announcing BGP speaker, the speaker MAY use the Global IPv6
-	      address associated with such an interface in the next hop.  If the
-	      external peer is one IP hop away, the announcing BGP speaker
-	      SHOULD include a Link-Local IPv6 next hop. These are known as
-	      "first party" next hops.
-	    </li>
-	    <li>
-	      By default (if none of the above conditions apply), the BGP
-	      speaker SHOULD use the IP address of the interface that the
-	      speaker uses to establish the BGP connection to peer X in the
-	      next hop attribute.  The Global IPv6 address, if one is present,
-	      SHOULD be included.  If the BGP speaker is one IP hop away, the
-	      Link-Local IPv6 address SHOULD be included, and MAY be the only
-	      next hop address in the next hop.  If no next hops are included,
-	      the route MUST NOT be announced (treat-as-withdraw).
-	    </li>
-	  </ul>
-	</li>
-	<li>
-	  <t>
-	    When sending a message to an external peer X, and the peer is
-	    multiple IP hops away from the speaker (aka "multihop EBGP"):
-	  </t>
+          <ul>
+            <li>
+              If the route being announced was learned from an internal
+              peer or is locally-originated, the BGP speaker can use an
+              interface address of the internal peer router (or the
+              internal router) through which the announced network is
+              reachable for the speaker for the Global IPv6 next hop and
+              shares a common subnet with this address, and/or a Link-Local IPv6
+              next hop, provided that peer X is directly attached.  This is a
+              form of "third party" next hop.
+            </li>
+            <li>
+              Otherwise, if the route being announced was learned from an
+              external peer, the speaker can use a Global IPv6 address of any
+              adjacent router (known from the received next hop) that the
+              speaker itself uses for local route calculation in the next hop,
+              provided that peer X shares a common subnet with this Global IPv6
+              address.  Similarly, the speaker can use the received Link-Local
+              IPv6 address, provided that peer X is directly attached.  This is
+              a second form of "third party" next hop  attribute.
+            </li>
+            <li>
+              Otherwise, if the external peer to which the route is being
+              advertised shares a common subnet with one of the interfaces
+              of the announcing BGP speaker, the speaker MAY use the Global IPv6
+              address associated with such an interface in the next hop.  If the
+              external peer is one IP hop away, the announcing BGP speaker
+              SHOULD include a Link-Local IPv6 next hop. These are known as
+              "first party" next hops.
+            </li>
+            <li>
+              By default (if none of the above conditions apply), the BGP
+              speaker SHOULD use the IP address of the interface that the
+              speaker uses to establish the BGP connection to peer X in the
+              next hop attribute.  The Global IPv6 address, if one is present,
+              SHOULD be included.  If the BGP speaker is one IP hop away, the
+              Link-Local IPv6 address SHOULD be included, and MAY be the only
+              next hop address in the next hop.  If no next hops are included,
+              the route MUST NOT be announced (treat-as-withdraw).
+            </li>
+          </ul>
+        </li>
+        <li>
+          <t>
+            When sending a message to an external peer X, and the peer is
+            multiple IP hops away from the speaker (aka "multihop EBGP"):
+          </t>
 
-	  <ul>
-	    <li>
-	      Link-Local IPv6 next hops MUST NOT be included.
-	    </li>
-	    <li>
-	      The speaker MAY be configured to propagate a Global IPv6 next hop.
-	      In this case, when advertising a route that the speaker learned
-	      from one of its peers, the Global IPv6 next hop of the advertised
-	      route is exactly the same as the next hop attribute of the learned
-	      route.
-	    </li>
-	    <li>
-	      By default, the BGP speaker SHOULD use the Global IPv6 address of the
-	      interface that the speaker uses in the next hop to
-	      establish the BGP connection to peer X. 
-	    </li>
-	    <li>
-	      If a Global IPv6 next hop is not included, the route MUST NOT be
-	      advertised to the external peer (treat-as-withdraw).
-	    </li>
-	  </ul>
-	</li>
+          <ul>
+            <li>
+              Link-Local IPv6 next hops MUST NOT be included.
+            </li>
+            <li>
+              The speaker MAY be configured to propagate a Global IPv6 next hop.
+              In this case, when advertising a route that the speaker learned
+              from one of its peers, the Global IPv6 next hop of the advertised
+              route is exactly the same as the next hop attribute of the learned
+              route.
+            </li>
+            <li>
+              By default, the BGP speaker SHOULD use the Global IPv6 address of the
+              interface that the speaker uses in the next hop to
+              establish the BGP connection to peer X. 
+            </li>
+            <li>
+              If a Global IPv6 next hop is not included, the route MUST NOT be
+              advertised to the external peer (treat-as-withdraw).
+            </li>
+          </ul>
+        </li>
       </ol>
     </section>
     <!-- end of Changes to BGP Next Hop Attribute to Support Link-Local on Point-to-Point section -->
@@ -352,49 +352,49 @@
     <section numbered="true" toc="default">
       <name>Error handling</name>
       <t>
-	These procedures apply only when the Link-Local Next Hop Capability has
-	been negotiated for a BGP session.
+        These procedures apply only when the Link-Local Next Hop Capability has
+        been negotiated for a BGP session.
       </t>
       <t>
-	A BGP speaker receiving an MP_REACH_NLRI with the length of the Next Hop
-	Field set to 32, where the update contains anything other than a Global IPv6
-	followed by a Link-Local IPv6 address, SHOULD do the following.
+        A BGP speaker receiving an MP_REACH_NLRI with the length of the Next Hop
+        Field set to 32, where the update contains anything other than a Global IPv6
+        followed by a Link-Local IPv6 address, SHOULD do the following.
       </t>
       <t>
         <!-- XXX JMH - Which of these is considered canonical, first or second? -->
-	When both IPv6 next hops contain Link-Local IPv6 addresses, the second
-	Link-Local IPv6 address should be used for forwarding.  If both address
-	are not identical, the implementation should bring this to the
-	operator's attention for debugging.
+        When both IPv6 next hops contain Link-Local IPv6 addresses, the second
+        Link-Local IPv6 address should be used for forwarding.  If both address
+        are not identical, the implementation should bring this to the
+        operator's attention for debugging.
       </t>
       <t>
-	When the first IPv6 address is 0::0/0 and the second IPv6 address is an
-	IPv6 Link-Local address, the second address is used for forwarding.
+        When the first IPv6 address is 0::0/0 and the second IPv6 address is an
+        IPv6 Link-Local address, the second address is used for forwarding.
       </t>
       <t>
-	<!-- XXX JMH - What is this section trying to do?  Say if we get LL in the NLRI
-	that it's invalid?  If so, why do we care about the NH length? -->
-	And if a BGP speaker receiving an MP_REACH_NLRI with the length of the
-	Next Hop Field set to 16, where the update contains an IPv6 Link-Local
-	address, SHOULD consider this a malformed UPDATE message, and handle the
-	malformed UPDATE message using the approach of "treat-as-withdraw", as
-	described in section 7.3 of <xref target="RFC7606"/>.
+        <!-- XXX JMH - What is this section trying to do?  Say if we get LL in the NLRI
+        that it's invalid?  If so, why do we care about the NH length? -->
+        And if a BGP speaker receiving an MP_REACH_NLRI with the length of the
+        Next Hop Field set to 16, where the update contains an IPv6 Link-Local
+        address, SHOULD consider this a malformed UPDATE message, and handle the
+        malformed UPDATE message using the approach of "treat-as-withdraw", as
+        described in section 7.3 of <xref target="RFC7606"/>.
       </t>
       <t>
-	If the Next Hop field is malformed, the implementation MUST handle the
-	malformed UPDATE message using the approach of "treat-as-withdraw", as
-	described in section 7.3 of <xref target="RFC7606"/>.
+        If the Next Hop field is malformed, the implementation MUST handle the
+        malformed UPDATE message using the approach of "treat-as-withdraw", as
+        described in section 7.3 of <xref target="RFC7606"/>.
       </t>
       <t>
-	<!-- XXX JMH - This section is problematic for third party LLNH.  For
-	first party, we shouldn't be able to receive the route since the session
-	won't be up.  For third-party, NDP may happen asynchronously. -->
-	If the Next Hop field is properly formed, but the IPv6 Link-Local next
-	hop is not reachable (as determined by an examination of the IPv6
-	neighbor table), the implementation MAY handle the malformed UPDATE
-	message using the approach of "treat-as-withdraw", as described in
-	section 7.3 of <xref target="RFC7606"/> (see the note above on checking
-	the local neighbor table for the correctness of the next hop).
+        <!-- XXX JMH - This section is problematic for third party LLNH.  For
+        first party, we shouldn't be able to receive the route since the session
+        won't be up.  For third-party, NDP may happen asynchronously. -->
+        If the Next Hop field is properly formed, but the IPv6 Link-Local next
+        hop is not reachable (as determined by an examination of the IPv6
+        neighbor table), the implementation MAY handle the malformed UPDATE
+        message using the approach of "treat-as-withdraw", as described in
+        section 7.3 of <xref target="RFC7606"/> (see the note above on checking
+        the local neighbor table for the correctness of the next hop).
       </t>
     </section>
     <!-- end of Error handling section -->
@@ -446,36 +446,36 @@
 <section numbered="true" toc="default">
       <name>Security Considerations</name>
       <t>
-	The mechanism described in this draft can be used as a component of 
-	zero-touch provisioning (ZTP)
-	for building BGP peering across point-to-point links. This method, then,
-	can be used by an attacker to form a peering session with a BGP speaker,
-	ultimately advertising incorrect routing information into a routing
-	domain in order to misdirect traffic or cause a denial of service. By
-	using IPv6 Link-Local addresses, the attacker would be able to forego
-	the use of a valid IPv6 address within the domain, making such an attack
-	easier.
+        The mechanism described in this draft can be used as a component of 
+        zero-touch provisioning (ZTP)
+        for building BGP peering across point-to-point links. This method, then,
+        can be used by an attacker to form a peering session with a BGP speaker,
+        ultimately advertising incorrect routing information into a routing
+        domain in order to misdirect traffic or cause a denial of service. By
+        using IPv6 Link-Local addresses, the attacker would be able to forego
+        the use of a valid IPv6 address within the domain, making such an attack
+        easier.
       </t>
       <t>
-	Operators SHOULD carefully consider security when deploying Link-Local
-	addresses for BGP peering. Operators SHOULD filter traffic on links
-	where BGP peering is not intended to occur to prevent speakers from
-	accepting BGP session requests, as well as other mechanisms described in
-	<xref target="RFC7454"/>.
+        Operators SHOULD carefully consider security when deploying Link-Local
+        addresses for BGP peering. Operators SHOULD filter traffic on links
+        where BGP peering is not intended to occur to prevent speakers from
+        accepting BGP session requests, as well as other mechanisms described in
+        <xref target="RFC7454"/>.
       </t>
       <t>
-	Operators MAY also use some form of cryptographic validation on links
-	within the network to prevent unauthorized devices from forming BGP
-	peering sessions. Authentication, such as the TCP authentication <xref
-	target="RFC5925"/>, may provide some relief if it is present and
-	correctly configured. However, the distribution and management of keys
-	in an environment where global addresses on BGP speakers are not present
-	may be challenging.
+        Operators MAY also use some form of cryptographic validation on links
+        within the network to prevent unauthorized devices from forming BGP
+        peering sessions. Authentication, such as the TCP authentication <xref
+        target="RFC5925"/>, may provide some relief if it is present and
+        correctly configured. However, the distribution and management of keys
+        in an environment where global addresses on BGP speakers are not present
+        may be challenging.
       </t>
       <t>
-	Operators also MAY instruct a BGP peer which has received an UPDATE with
-	an unreachable NEXT_HOP to disable the peering session over which the
-	invalid NEXT_HOP was received pending manual intervention.
+        Operators also MAY instruct a BGP peer which has received an UPDATE with
+        an unreachable NEXT_HOP to disable the peering session over which the
+        invalid NEXT_HOP was received pending manual intervention.
       </t>
     </section>
     <!-- end of Security Considerations section -->
@@ -510,9 +510,9 @@
 
     <section title="Motiviations for a Capability">
       <t>
-	Link-Local-only next hops have been inconsistently supported in prior
-	BGP implementations.  This capability can permit two conforming
-	implementations to interoperate without additional configuration.
+        Link-Local-only next hops have been inconsistently supported in prior
+        BGP implementations.  This capability can permit two conforming
+        implementations to interoperate without additional configuration.
       </t>
     </section>
 
@@ -520,11 +520,11 @@
     implementation report and we've split sections? -->
     <section title="Inconsistency Reports">
       <t>
-	According to <xref target="RFC7942"/>, "This will allow reviewers and
-	working groups to assign due consideration to documents that have the
-	benefit of running code, which may serve as evidence of valuable
-	experimentation and feedback that have made the implemented protocols
-	more mature".
+        According to <xref target="RFC7942"/>, "This will allow reviewers and
+        working groups to assign due consideration to documents that have the
+        benefit of running code, which may serve as evidence of valuable
+        experimentation and feedback that have made the implemented protocols
+        more mature".
       </t>
       <t>
         <eref target="https://github.com/frrouting/frr/commit/606fdbb1fab98bac305dca3d19eb38b140b7c3e6">FRRouting</eref> IPv6 next-hop handling when GUA/LL is set to ::/LL.
@@ -536,9 +536,9 @@
 
     <section title="Implementation Report">
       <t>
-	According to <xref target="RFC7942"/>, "This will allow reviewers and
-	working groups to assign due consideration to documents that have the
-	benefit of running code, which may
+        According to <xref target="RFC7942"/>, "This will allow reviewers and
+        working groups to assign due consideration to documents that have the
+        benefit of running code, which may
         serve as evidence of valuable experimentation and feedback that have made the
         implemented protocols more mature".
       </t>
