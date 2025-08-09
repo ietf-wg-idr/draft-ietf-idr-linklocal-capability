@@ -361,7 +361,6 @@
         followed by a Link-Local IPv6 address, SHOULD do the following.
       </t>
       <t>
-        <!-- XXX JMH - Which of these is considered canonical, first or second? -->
         When both IPv6 next hops contain Link-Local IPv6 addresses, the second
         Link-Local IPv6 address should be used for forwarding.  If both address
         are not identical, the implementation should bring this to the
