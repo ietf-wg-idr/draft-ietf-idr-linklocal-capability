@@ -223,6 +223,12 @@
         Link-Local Next Hop Capability has been negotiated between two peers.
         The next hop MAY consist of only a Link-Local IPv6 next hop.
       </t>
+      <t>
+        If, after completing these procedures, there are no IPv6 next hop
+        addresses included in the next hop, the BGP route MUST not be advertised
+	to its peer. Instead, treat-as-withdraw 
+	(<xref target="RFC7606" section="2"/>) is used.
+      </t>
       <ol>
         <li>
           <t>
