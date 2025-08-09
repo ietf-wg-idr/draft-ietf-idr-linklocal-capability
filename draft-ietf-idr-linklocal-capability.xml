@@ -451,7 +451,7 @@
         can be used by an attacker to form a peering session with a BGP speaker,
         ultimately advertising incorrect routing information into a routing
         domain in order to misdirect traffic or cause a denial of service. By
-        using IPv6 Link-Local addresses, the attacker would be able to forego
+        using IPv6 Link-Local addresses, the attacker would be able to forgo
         the use of a valid IPv6 address within the domain, making such an attack
         easier.
       </t>
