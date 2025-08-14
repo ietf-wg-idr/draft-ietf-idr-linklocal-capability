@@ -112,12 +112,10 @@
         With this new capability, the need for a Global unicast address assigned
         to the interfaces is eliminated.
       </t>
-      <!-- XXX JMH - what is the intention of this next sentence?  That the
-      addresses are scoped? -->
       <t>
         Since IPv6 Link-Local addresses are not required to be globally unique,
         implementations must ensure that they are strictly associated with a
-        specific interface.
+        specific interface.  (See commentary in <xref target="RFC4007"/>.)
       </t>
     </section>
     <!-- end of Introduction section -->
@@ -135,12 +133,9 @@
       </t>
       <ol spacing="normal" type="1">
         <li>It is capable of sending IPv6 Link-Local-only next hops for a route.</li>
-        <!-- XXX JMH - the text in this next sentence is awkward. Is the intent
-        to say that we're using the BGP peer configuration and that this
-        configuration is intended to be configured for a specific interface? -->
-        <li>The implementation is capable of processing IPv6 Link-Local address
-               next hops with the help of peer interface binding to come up with
-               interface-specific next hops for its routing table.</li>
+	<li>IPv6 Link-Local neighbors are associated with interfaces as part of
+	their configuration to assist in determining the interface scope of
+	received IPv6 Link-Local-only next hops.</li>
       </ol>
       <t>
         The presence of this capability does not affect the support of Global
@@ -176,12 +171,6 @@
         addresses, however, <xref target="RFC2545"/> constructs the Next Hop
         field in IPv6 route advertisements by setting the length of the field to
         32, and including both an IPv6 Global and Link-Local address.
-
-        <!-- XXX JMH I think the next sentence is too implementation specific to
-        include. Thoughts? -->
-        In this way, the receiving BGP speaker can use the Global IPv6 address
-        to build local forwarding information, and the IPv6 Link-Local address
-        for ICMPv6 redirects, etc.
       </t>
       <t>
         <xref target="RFC2545"/> does not, however, provide an explanation for
@@ -200,8 +189,7 @@
         set the length of the Next Hop field to 32 and include both the IPv6
         Global and Link-Local addresses in the Next Hop field.
 
-        <!-- XXX JMH - I don't know of implementations that carry both types
-        that permit the choice of installed nexthop. Any pointers? -->
+        (XXX Issue-24, do implementations generally have such a knob?)
         If both the IPv6 Global and Link-Local addresses are carried in the Next
         Hop Field, the speaker SHOULD provide a local configuration
         option to determine which address should be preferred for
@@ -377,15 +365,6 @@
         IPv6 Link-Local address, the second address is used for forwarding.
       </t>
       <t>
-        <!-- XXX JMH - What is this section trying to do?  Say if we get LL in the NLRI
-        that it's invalid?  If so, why do we care about the NH length? -->
-        And if a BGP speaker receiving an MP_REACH_NLRI with the length of the
-        Next Hop Field set to 16, where the update contains an IPv6 Link-Local
-        address, SHOULD consider this a malformed UPDATE message, and handle the
-        malformed UPDATE message using the approach of "treat-as-withdraw", as
-        described in section 7.3 of <xref target="RFC7606"/>.
-      </t>
-      <t>
         If the Next Hop field is malformed, the implementation MUST handle the
         malformed UPDATE message using the approach of "treat-as-withdraw", as
         described in section 7.3 of <xref target="RFC7606"/>.
@@ -510,6 +489,7 @@
       <name>Informative References</name>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml3/reference.I-D.kumar-idr-link-local-nexthop.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml3/reference.I-D.kato-bgp-ipv6-link-local.xml"/>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.4007.xml"/>
       </references>
     </references>
 
@@ -521,8 +501,6 @@
       </t>
     </section>
 
-    <!-- XXX JMH - is this intended to be inconsistency or is this part of the
-    implementation report and we've split sections? -->
     <section title="Inconsistency Reports">
       <t>
         According to <xref target="RFC7942"/>, "This will allow reviewers and
