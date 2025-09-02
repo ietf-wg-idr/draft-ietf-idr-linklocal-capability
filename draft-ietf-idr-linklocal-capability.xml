@@ -493,7 +493,7 @@
       </references>
     </references>
 
-    <section title="Motiviations for a Capability">
+    <section title="Motivations for a Capability">
       <t>
         Link-Local-only next hops have been inconsistently supported in prior
         BGP implementations.  This capability can permit two conforming
