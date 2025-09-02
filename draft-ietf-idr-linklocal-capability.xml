@@ -62,7 +62,7 @@
         This document updates <xref target="RFC2545"/> to clarify the
         encoding of the BGP next hop when the advertising system is directly
         attached and only an IPv6 Link-Local address is available.  A new BGP
-        Capbility <xref target="RFC5492"/> is defined to signal support for this
+        Capability <xref target="RFC5492"/> is defined to signal support for this
         updated encoding.
       </t>
       <t>
