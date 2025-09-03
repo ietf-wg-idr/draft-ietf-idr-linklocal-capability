@@ -188,12 +188,11 @@
         forwarding address in the Next Hop field of the MP_REACH_NLRI, it MUST
         set the length of the Next Hop field to 32 and include both the IPv6
         Global and Link-Local addresses in the Next Hop field.
-
-        (XXX Issue-24, do implementations generally have such a knob?)
-        If both the IPv6 Global and Link-Local addresses are carried in the Next
-        Hop Field, the speaker SHOULD provide a local configuration
-        option to determine which address should be preferred for
-        forwarding.
+      </t>
+      <t>
+        When both an IPv6 Global and a Link-Local address are present in the
+        Next Hop field, the choice of which of these is to be installed for
+        forwarding is implementation-specific.
       </t>
     </section>
     <section>
