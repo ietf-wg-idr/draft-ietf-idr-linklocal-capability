@@ -51,8 +51,8 @@
     <workgroup>Interdomain Routing</workgroup>
     <abstract>
       <t>
-        To support IPv6 reachability, BGP <xref target="RFC4271"/> relies on the
-        Multiprotocol Extensions as defined in <xref target="RFC4760"/>.
+        To support IPv6 <xref target="RFC4291"/> reachability, BGP <xref target="RFC4271"/>
+        relies on the Multiprotocol Extensions as defined in <xref target="RFC4760"/>.
         <xref target="RFC2545"/> defines the structure of IPv6 next hops.  These
         IPv6 next hops may contain a Global IPv6 address, and optionally can
         contain an IPv6 Link-Local address when the BGP peer is directly
@@ -472,7 +472,7 @@
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.2545.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.3927.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.4271.xml"/>
-        <!-- xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.4291.xml"/ -->
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.4291.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.4456.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.4760.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.5492.xml"/>
@@ -481,14 +481,14 @@
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.7606.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.7454.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.7938.xml"/>
-        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.7942.xml"/>
+        <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.7942.xml"/>
         <!-- xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8950.xml"/ -->
       </references>
       <references>
       <name>Informative References</name>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml3/reference.I-D.kumar-idr-link-local-nexthop.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml3/reference.I-D.kato-bgp-ipv6-link-local.xml"/>
-        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.4007.xml"/>
+        <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.4007.xml"/>
       </references>
     </references>
 
