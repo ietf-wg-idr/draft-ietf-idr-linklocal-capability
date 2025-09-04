@@ -369,15 +369,13 @@
         described in section 7.3 of <xref target="RFC7606"/>.
       </t>
       <t>
-        <!-- XXX JMH - This section is problematic for third party LLNH.  For
-        first party, we shouldn't be able to receive the route since the session
-        won't be up.  For third-party, NDP may happen asynchronously. -->
         If the Next Hop field is properly formed, but the IPv6 Link-Local next
         hop is not reachable (as determined by an examination of the IPv6
-        neighbor table), the implementation MAY handle the malformed UPDATE
-        message using the approach of "treat-as-withdraw", as described in
-        section 7.3 of <xref target="RFC7606"/> (see the note above on checking
-        the local neighbor table for the correctness of the next hop).
+        neighbor table), the route SHOULD be considered unusable for forwarding
+        purposes, in accordance with the next hop resolvability conditions
+        described in <xref target="RFC4271"/>. The implementation MAY withdraw
+        the route from its routing table, but this is not considered a protocol
+        error.
       </t>
     </section>
     <!-- end of Error handling section -->
