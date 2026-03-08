@@ -259,7 +259,12 @@
           </t>
           <t>
             These procedures also apply when the BGP speaker is functioning as a
-            route-reflector (<xref target="RFC4456"/>).
+            route-reflector (<xref target="RFC4456"/>). A Route Reflector (RR) 
+			reflecting a route with a link-local-only next hop MUST NOT advertise
+			that route to a client unless the client shares the same link-layer
+			segment as the original advertiser. For all other clients, the RR MUST
+			either rewrite the next hop to its own address (next-hop-self) or
+			consider the route ineligible for advertisement to that specific peer.
           </t>
         </li>
         <li>
@@ -318,7 +323,11 @@
 
           <ul>
             <li>
-              Link-Local IPv6 next hops MUST NOT be included.
+              Link-Local IPv6 next hops MUST NOT be included in multihop
+			  eBGP sessions. If a BGP speaker receives a route with a
+			  link-local-only next hop over a multihop eBGP session,
+			  it MUST handle the update using the 'treat-as-withdraw'
+			  procedure defined in <xref target="RFC7606"/>.
             </li>
             <li>
               The speaker MAY be configured to propagate a Global IPv6 next hop.
@@ -377,8 +386,39 @@
         the route from its routing table, but this is not considered a protocol
         error.
       </t>
+      <t>
+	    If the link-local next hop cannot be resolved via Neighbor Discovery,
+        the route SHOULD be considered unusable for forwarding, consistent with
+        the next-hop resolvability requirements described in <xref target="RFC4271"/>.
+        Implementations MAY handle such routes by removing them from the Loc-RIB
+        or by applying the 'treat-as-withdraw' procedure as defined in
+        <xref target="RFC7606"/>.
+      </t>
+			
     </section>
     <!-- end of Error handling section -->
+
+    <section numbered="true" toc="default">
+      <name>Operational Considerations</name>
+      <t>
+        In Zero-Touch Provisioning (ZTP) and BGP Unnumbered environments, the
+        reachability of the next hop is dynamic. To ensure operational visibility
+        and scaling, implementations SHOULD support the following.
+      </t>
+      <t>
+        <strong>Protocol Interoperability:</strong> Implementations SHOULD support
+        BGP Add-Path <xref target="RFC7911"/> and Extended Next-Hop Encoding
+        <xref target="RFC8950"/> to ensure full path utilization in
+        IPv4-over-IPv6 underlays.
+      </t>
+      <t>
+        <strong>Monitoring and Telemetry:</strong> Implementations SHOULD provide
+        specific telemetry via the BGP Monitoring Protocol (BMP) <xref target="RFC7854"/>
+        or YANG models <xref target="RFC9107"/> to expose the state of link-local
+        capability negotiation and next-hop resolution states.
+      </t>
+    </section>
+    <!-- end of Operational Considerations section -->
 
 <section numbered="true" toc="default">
       <name>Acknowledgements</name>
@@ -480,6 +520,10 @@
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.7454.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.7938.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.7942.xml"/>
+        <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.9107.xml"/>
+        <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8950.xml"/>
+        <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.7911.xml"/>
+		<xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.7854.xml"/>		
         <!-- xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8950.xml"/ -->
       </references>
       <references>
