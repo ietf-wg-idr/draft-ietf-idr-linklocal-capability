@@ -322,12 +322,12 @@
           </t>
 
           <ul>
-            <li>
-              Link-Local IPv6 next hops MUST NOT be included in multihop
-			  eBGP sessions. If a BGP speaker receives a route with a
-			  link-local-only next hop over a multihop eBGP session,
-			  it MUST handle the update using the 'treat-as-withdraw'
-			  procedure defined in <xref target="RFC7606"/>.
+			<li>
+               Link-Local IPv6 next hops MUST NOT be included. If a BGP 
+               speaker receives a route with a link-local-only next hop, 
+               the route SHOULD be considered unusable for forwarding, 
+               consistent with the next-hop resolvability requirements 
+               described in <xref target="RFC4271"/>.
             </li>
             <li>
               The speaker MAY be configured to propagate a Global IPv6 next hop.
@@ -386,14 +386,6 @@
         the route from its routing table, but this is not considered a protocol
         error.
       </t>
-      <t>
-	    If the link-local next hop cannot be resolved via Neighbor Discovery,
-        the route SHOULD be considered unusable for forwarding, consistent with
-        the next-hop resolvability requirements described in <xref target="RFC4271"/>.
-        Implementations MAY handle such routes by removing them from the Loc-RIB
-        or by applying the 'treat-as-withdraw' procedure as defined in
-        <xref target="RFC7606"/>.
-      </t>
 			
     </section>
     <!-- end of Error handling section -->
@@ -415,7 +407,7 @@
         <strong>Monitoring and Telemetry:</strong> Implementations SHOULD provide
         specific telemetry via the BGP Monitoring Protocol (BMP) <xref target="RFC7854"/>
         or YANG models <xref target="RFC9107"/> to expose the state of link-local
-        capability negotiation and next-hop resolution states.
+        capability negotiation.
       </t>
     </section>
     <!-- end of Operational Considerations section -->
