@@ -46,6 +46,15 @@
         <email>donatas.abraitis@gmail.com</email>
       </address>
     </author>
+	<author fullname="Biswajit Sadhu" initials="B." surname="Sadhu">
+      <organization>Ciena</organization>
+      <address>
+		<postal>
+          <street/>
+        </postal>
+        <email>bsadhu@ciena.com</email>
+      </address>
+    </author>
     <date year="2026"/>
     <area>Routing</area>
     <workgroup>Interdomain Routing</workgroup>
