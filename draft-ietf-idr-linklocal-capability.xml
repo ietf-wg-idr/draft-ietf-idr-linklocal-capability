@@ -95,7 +95,7 @@
         This document updates <xref target="RFC2545"/> to clarify the
         encoding of the BGP next hop when the advertising system is directly
         attached and only an IPv6 Link-Local address is available.  A new BGP
-        Capbility <xref target="RFC5492"/> is defined to signal support for this
+        Capability <xref target="RFC5492"/> is defined to signal support for this
         updated encoding.
       </t>
       <t>
@@ -160,8 +160,18 @@
         In this document, all procedures described are applicable only when the
         capability described herein has been successfully advertised by both BGP
         speakers; i.e., negotiated. When the capability has not been negotiated,
-        the procedures in this document do not apply, and the resulting behavior
-        is considered undefined and out of scope for this specification.
+        the procedures in this document do not apply.
+      </t>
+      <t>
+        To improve interoperability in mixed deployments, when this capability
+        has not been negotiated with a peer, a BGP speaker SHOULD fall back to
+        the encoding defined in <xref target="RFC2545"/>: a 16-byte Next Hop
+        field containing a Global IPv6 address, or a 32-byte Next Hop field
+        containing a Global IPv6 address followed by a Link-Local IPv6 address.
+        A BGP speaker SHOULD NOT send a Link-Local-only (16-byte Link-Local)
+        next hop to a peer with which this capability has not been negotiated.
+        The behavior of a receiver that observes a Link-Local-only next hop in
+        the absence of capability negotiation is not defined by this document.
       </t>
       <t>
         Implementers are encouraged to consult the Appendix for currently known
@@ -268,12 +278,26 @@
           </t>
           <t>
             These procedures also apply when the BGP speaker is functioning as a
-            route-reflector (<xref target="RFC4456"/>). A Route Reflector (RR) 
+            route-reflector (<xref target="RFC4456"/>). A Route Reflector (RR)
 			reflecting a route with a link-local-only next hop MUST NOT advertise
 			that route to a client unless the client shares the same link-layer
 			segment as the original advertiser. For all other clients, the RR MUST
 			either rewrite the next hop to its own address (next-hop-self) or
 			consider the route ineligible for advertisement to that specific peer.
+          </t>
+          <t>
+            Successful negotiation of the Link-Local Next Hop Capability between
+            an RR and a client does not, by itself, guarantee that the client
+            shares the same link-layer segment as the original advertiser of a
+            Link-Local-only route. When an RR has negotiated this capability
+            with a client that is not on the same link as the originator and the
+            RR has not been configured to rewrite the next hop, routes with a
+            Link-Local-only next hop will be suppressed for that client without
+            any in-band diagnostic signal. To aid troubleshooting in such
+            deployments, implementations SHOULD log this suppression, or
+            otherwise expose it through operator notification (e.g., via BMP or
+            YANG telemetry), so that unexpected reachability gaps can be
+            detected.
           </t>
         </li>
         <li>
@@ -372,10 +396,20 @@
         followed by a Link-Local IPv6 address, SHOULD do the following.
       </t>
       <t>
-        When both IPv6 next hops contain Link-Local IPv6 addresses, the second
-        Link-Local IPv6 address should be used for forwarding.  If both address
-        are not identical, the implementation should bring this to the
-        operator's attention for debugging.
+        A 32-byte Next Hop field carrying two IPv6 Link-Local addresses is not
+        produced by a conforming implementation of <xref target="RFC2545"/> or
+        of this document; however, this malformation has been observed in
+        deployment (see, for example, the Bird implementation report in
+        <xref target="ll_inconsistency"/>). Receivers SHOULD use the second
+        Link-Local IPv6 address for forwarding, because the second slot is the
+        position that carries the Link-Local address in the conforming
+        Global-then-Link-Local layout defined by <xref target="RFC2545"/>, and
+        thus is the value the sender most likely intended as the Link-Local
+        next hop. Treating such an UPDATE as malformed and applying
+        treat-as-withdraw (<xref target="RFC7606"/>) is also acceptable but is
+        more operationally disruptive than accepting the second address. If the
+        two addresses are not identical, the implementation SHOULD bring this
+        to the operator's attention for debugging.
       </t>
       <t>
         When the first IPv6 address is 0::0/0 and the second IPv6 address is an
@@ -414,9 +448,24 @@
       </t>
       <t>
         <strong>Monitoring and Telemetry:</strong> Implementations SHOULD provide
-        specific telemetry via the BGP Monitoring Protocol (BMP) <xref target="RFC7854"/>
-        or YANG models <xref target="RFC9107"/> to expose the state of link-local
-        capability negotiation.
+        specific telemetry via the BGP Monitoring Protocol (BMP)
+        <xref target="RFC7854"/> or a BGP YANG model (e.g.,
+        <xref target="I-D.ietf-idr-bgp-model"/>) to expose the state of
+        link-local capability negotiation.
+      </t>
+      <t>
+        Because IPv6 Link-Local addresses (fe80::/10) are not globally unique,
+        a BMP collector cannot, in general, distinguish two peers that share
+        the same Link-Local address on different interfaces of the monitored
+        router using only the information in the BMP per-peer header. In
+        deployments that use Link-Local addresses for BGP peering, operators
+        SHOULD rely on additional identifying information -- such as the BGP
+        Router ID carried in the per-peer header together with interface index
+        or interface name -- to disambiguate peers.
+        <xref target="I-D.lin-grow-bmp-peer-interface"/> defines a
+        Peer-Interface TLV for BMP that carries this information alongside the
+        per-peer header; that work and this document are complementary in BMP
+        deployments that include Link-Local-only BGP sessions.
       </t>
     </section>
     <!-- end of Operational Considerations section -->
@@ -425,7 +474,8 @@
       <name>Acknowledgements</name>
       <t>
         The authors would like to thank Vipin Kumar, Dinesh Dutt, Donald Sharp,
-        Jeff Haas, and Brian Carpenter for their contributions to this draft.
+        Jeff Haas, Mukul Srivastava and Brian Carpenter for their contributions
+        to this draft.
       </t>
       <t>
         This document builds on prior work exploring the use of IPv6 Link-Local
@@ -521,7 +571,6 @@
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.7454.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.7938.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.7942.xml"/>
-        <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.9107.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8950.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.7911.xml"/>
 		<xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.7854.xml"/>		
@@ -531,6 +580,8 @@
       <name>Informative References</name>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml3/reference.I-D.kumar-idr-link-local-nexthop.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml3/reference.I-D.kato-bgp-ipv6-link-local.xml"/>
+        <xi:include href="https://bib.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-idr-bgp-model.xml"/>
+        <xi:include href="https://bib.ietf.org/public/rfc/bibxml3/reference.I-D.lin-grow-bmp-peer-interface.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.4007.xml"/>
       </references>
     </references>
@@ -543,7 +594,7 @@
       </t>
     </section>
 
-    <section title="Inconsistency Reports">
+    <section anchor="ll_inconsistency" title="Inconsistency Reports">
       <t>
         According to <xref target="RFC7942"/>, "This will allow reviewers and
         working groups to assign due consideration to documents that have the
