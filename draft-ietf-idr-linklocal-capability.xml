@@ -163,17 +163,6 @@
         the procedures in this document do not apply.
       </t>
       <t>
-        To improve interoperability in mixed deployments, when this capability
-        has not been negotiated with a peer, a BGP speaker SHOULD fall back to
-        the encoding defined in <xref target="RFC2545"/>: a 16-byte Next Hop
-        field containing a Global IPv6 address, or a 32-byte Next Hop field
-        containing a Global IPv6 address followed by a Link-Local IPv6 address.
-        A BGP speaker SHOULD NOT send a Link-Local-only (16-byte Link-Local)
-        next hop to a peer with which this capability has not been negotiated.
-        The behavior of a receiver that observes a Link-Local-only next hop in
-        the absence of capability negotiation is not defined by this document.
-      </t>
-      <t>
         Implementers are encouraged to consult the Appendix for currently known
         interoperability concerns or incompatibilities when this capability is
         absent or inconsistently implemented.
@@ -398,18 +387,14 @@
       <t>
         A 32-byte Next Hop field carrying two IPv6 Link-Local addresses is not
         produced by a conforming implementation of <xref target="RFC2545"/> or
-        of this document; however, this malformation has been observed in
+        of this document; however, this form of next hop has been observed in
         deployment (see, for example, the Bird implementation report in
         <xref target="ll_inconsistency"/>). Receivers SHOULD use the second
         Link-Local IPv6 address for forwarding, because the second slot is the
         position that carries the Link-Local address in the conforming
         Global-then-Link-Local layout defined by <xref target="RFC2545"/>, and
         thus is the value the sender most likely intended as the Link-Local
-        next hop. Treating such an UPDATE as malformed and applying
-        treat-as-withdraw (<xref target="RFC7606"/>) is also acceptable but is
-        more operationally disruptive than accepting the second address. If the
-        two addresses are not identical, the implementation SHOULD bring this
-        to the operator's attention for debugging.
+        next hop.
       </t>
       <t>
         When the first IPv6 address is 0::0/0 and the second IPv6 address is an
