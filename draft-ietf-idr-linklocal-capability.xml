@@ -126,6 +126,15 @@
         implementations must ensure that they are strictly associated with a
         specific interface.  (See commentary in <xref target="RFC4007"/>.)
       </t>
+      <t>
+        IPv6 Link-Local addresses are not required to be stable across
+        interface bring-up or reconfiguration.  A change in an interface's
+        Link-Local address invalidates the underlying TCP connection and
+        therefore causes the BGP session to reset; routes are re-advertised
+        through the normal session re-establishment procedures. BGP speakers
+        SHOULD NOT advertise a Link-Local address while it is in the
+        tentative state (<xref target="RFC4862" section="5.4"/>).
+      </t>
     </section>
     <!-- end of Introduction section -->
 
@@ -184,6 +193,16 @@
         <xref target="RFC2545"/> does not, however, provide an explanation for
         situations where there is only an IPv6 Link-Local address in the Next
         Hop field of the MP_REACH_NLRI.
+      </t>
+      <t>
+        A BGP speaker receiving an MP_REACH_NLRI with the Next Hop field length
+        set to 16 SHALL classify the address as follows. If the address is in
+        fe80::/10, the Next Hop is a Link-Local-only Next Hop as defined in
+        this document, and the Link-Local Next Hop Capability MUST have been
+        negotiated; if it has not, the implementation MUST handle the message
+        using the approach of "treat-as-withdraw"
+        (<xref target="RFC7606" section="2"/>).  Otherwise, the address is
+        treated as a Global IPv6 Next Hop per <xref target="RFC2545"/>.
       </t>
       <t>
         If an implementation intends to send a single IPv6 Link-Local forwarding
@@ -374,6 +393,29 @@
     <!-- end of Changes to BGP Next Hop Attribute to Support Link-Local on Point-to-Point section -->
 
     <section numbered="true" toc="default">
+      <name>Interaction with RFC 8950</name>
+      <t>
+        <xref target="RFC8950" section="3"/> requires the Next Hop field to be
+        32 octets: a Global-or-unspecified IPv6 address followed by a
+        Link-Local IPv6 address, whenever IPv4 NLRI is carried with an IPv6
+        Next Hop.
+      </t>
+      <t>
+        When both the Link-Local Next Hop Capability defined in this document
+        and the Extended Next Hop Encoding capability
+        (<xref target="RFC8950"/>) have been negotiated between two peers, a
+        16-octet Link-Local-only Next Hop is permitted for IPv4 NLRI carried
+        with an IPv6 Next Hop, provided the receiving peer is directly
+        attached. Otherwise, the rules in
+        <xref target="RFC8950" section="3"/> apply unchanged and a Next Hop
+        encoded as a single 16-octet Link-Local address for IPv4 NLRI MUST be
+        handled using the approach of "treat-as-withdraw"
+        (<xref target="RFC7606" section="2"/>).
+      </t>
+    </section>
+    <!-- end of Interaction with RFC 8950 section -->
+
+    <section numbered="true" toc="default">
       <name>Error handling</name>
       <t>
         These procedures apply only when the Link-Local Next Hop Capability has
@@ -451,6 +493,22 @@
         Peer-Interface TLV for BMP that carries this information alongside the
         per-peer header; that work and this document are complementary in BMP
         deployments that include Link-Local-only BGP sessions.
+      </t>
+      <t>
+        <strong>Graceful Restart Interaction:</strong> If a Restarting Speaker
+        (<xref target="RFC4724"/>) re-establishes the BGP session with a
+        Link-Local address that differs from the one in effect before the
+        restart, peers retaining its routes as stale during the Restart Time
+        will hold next hops that reference the previous Link-Local address.
+        Unlike Global IPv6 Next Hops, where the routing system may provide
+        alternative reachability, Link-Local Next Hops are resolved purely via
+        Neighbor Discovery on the bound interface and have no routing
+        fallback; forwarding to such stale next hops is silently lost until
+        the Restart Time expires or new advertisements propagate. Operators
+        deploying this capability together with Graceful Restart SHOULD
+        ensure that Link-Local addresses remain stable across restart, and
+        implementations SHOULD treat a change in the local Link-Local address
+        as a session reset rather than as a graceful restart event.
       </t>
     </section>
     <!-- end of Operational Considerations section -->
@@ -548,7 +606,9 @@
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.4271.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.4291.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.4456.xml"/>
+        <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.4724.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.4760.xml"/>
+        <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.4862.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.5492.xml"/>
         <!-- xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.5309.xml"/ -->
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.5925.xml"/>
