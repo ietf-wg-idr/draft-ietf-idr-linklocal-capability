@@ -132,8 +132,14 @@
         Link-Local address invalidates the underlying TCP connection and
         therefore causes the BGP session to reset; routes are re-advertised
         through the normal session re-establishment procedures. BGP speakers
-        SHOULD NOT advertise a Link-Local address while it is in the
-        tentative state (<xref target="RFC4862" section="5.4"/>).
+        SHOULD NOT advertise a route whose Next Hop is a Link-Local address
+        that is in the tentative state
+        (<xref target="RFC4862" section="5.4"/>); this applies both to a
+        first-party Next Hop (the speaker's own Link-Local address) and to
+        a third-party Next Hop re-advertised from another peer. A Link-Local
+        address in the tentative state is not yet usable for Neighbor
+        Discovery and would therefore yield an unreachable Next Hop at the
+        receiver.
       </t>
     </section>
     <!-- end of Introduction section -->
@@ -195,11 +201,15 @@
         Hop field of the MP_REACH_NLRI.
       </t>
       <t>
-        A BGP speaker receiving an MP_REACH_NLRI with the Next Hop field length
-        set to 16 SHALL classify the address as follows. If the address is in
-        fe80::/10, the Next Hop is a Link-Local-only as defined in
-        this document, and the Link-Local Next Hop Capability MUST have been
-        negotiated.
+        A BGP speaker receiving an MP_REACH_NLRI with the Next Hop field
+        length set to 16 classifies the address as follows. If the address
+        is in fe80::/10, the Next Hop is a Link-Local-only Next Hop as
+        defined in this document. Otherwise, the address is treated as a
+        Global IPv6 Next Hop per <xref target="RFC2545"/>. A Link-Local-only
+        Next Hop received without the Link-Local Next Hop Capability having
+        been negotiated is not conformant with <xref target="RFC2545"/>;
+        receivers MAY accept such a Next Hop and apply the procedures of
+        this document, or MAY ignore the route.
       </t>
       <t>
         If an implementation intends to send a single IPv6 Link-Local forwarding
@@ -403,11 +413,12 @@
         (<xref target="RFC8950"/>) have been negotiated between two peers, a
         16-octet Link-Local-only Next Hop is permitted for IPv4 NLRI carried
         with an IPv6 Next Hop, provided the receiving peer is directly
-        attached. Otherwise, the rules in
-        <xref target="RFC8950" section="3"/> apply unchanged and a Next Hop
-        encoded as a single 16-octet Link-Local address for IPv4 NLRI MUST be
-        handled using the approach of "treat-as-withdraw"
-        (<xref target="RFC7606" section="2"/>).
+        attached. When this combination has not been negotiated, a sender
+        MUST follow the rules in <xref target="RFC8950" section="3"/> and
+        encode the Next Hop as 32 octets. A receiver that observes a
+        16-octet Link-Local-only Next Hop for IPv4 NLRI in the absence of
+        the negotiated combination MAY accept the Next Hop and apply the
+        procedures of this document, or MAY ignore the route.
       </t>
     </section>
     <!-- end of Interaction with RFC 8950 section -->
